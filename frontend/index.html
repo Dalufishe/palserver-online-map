@@ -5,7 +5,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>palserver Online Map</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -15,92 +15,7 @@
       href="https://cdn.jsdelivr.net/npm/@recogito/annotorious-openseadragon@2.7.17/dist/annotorious.min.css"
     />
 
-    <style>
-      body {
-        background-color: black;
-      }
-      #openseadragon {
-        width: 100vw;
-        height: 100vh;
-      }
-
-      #cursorViewportPosition,
-      .input-overlay,
-      .textHelper,
-      .servername,
-      .button-overlay {
-        position: fixed;
-        color: white;
-        font-size: 15px;
-        z-index: 9999;
-      }
-
-      #cursorViewportPosition {
-        background-color: rgba(0, 0, 0, 0.5);
-        border: 2px solid black;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-        padding: 10px;
-        right: 1vw;
-        bottom: 1vh;
-      }
-
-      .textHelper {
-        background-color: rgba(0, 0, 0, 0.5);
-        border: 2px solid black;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-        padding: 10px;
-        top: 1vh;
-        left: 1vw;
-      }
-
-      .servername {
-        background-color: rgba(0, 0, 0, 0.5);
-        border: 2px solid black;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-        padding: 10px;
-        bottom: 1vh;
-        left: 1vw;
-      }
-
-      .input-overlay {
-        top: 1vh;
-        right: 2vw;
-        min-width: 10vw;
-        max-width: 30vw;
-      }
-
-      .input-row {
-        padding: 5px;
-        background-color: rgba(0, 0, 0, 0.5);
-        border: 2px solid black;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-      }
-
-      .button-overlay {
-        bottom: 1vh;
-        left: 1vw;
-        padding: 5px;
-        background-color: rgba(0, 0, 0, 0.5);
-        border: 2px solid black;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-      }
-      .test-overlay {
-        z-index: 100;
-        background: yellow;
-        width: 20px;
-        height: 20px;
-        border-radius: 100px;
-      }
-      .player-label {
-        width: fit-content;
-        color: white;
-        font-weight: bold;
-        background-color: rgba(0, 0, 0, 0.5);
-        padding: 8px 16px;
-        display: flex;
-        gap: 8px;
-      }
-    </style>
+    <link rel="stylesheet" href="./index.css" />
   </head>
 
   <body>
@@ -108,11 +23,42 @@
 
     <span id="cursorViewportPosition"></span>
 
-    <div class="textHelper">
-      <div>palserver Map</div>
+    <div
+      class="textHelper btn btn-primary"
+      data-toggle="modal"
+      data-target="#exampleModal"
+    >
+      <div>connect to server</div>
     </div>
 
-    <div class="servername"></div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <div class="info">
+      powered by
+      <a href="https://github.com/Dalufishe/palserver-GUI"
+        >palserver online map</a
+      >
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -170,73 +116,6 @@
 
     <!-- <script src="annotationsEvents.js"></script> -->
 
-    <script>
-      setInterval(() => {
-        fetchPlayers().then((players) => {
-          viewer.clearOverlays();
-          players.forEach((player) => {
-            const x_loc = (player.location_y - 157664.55791065) / 462.962962963;
-            const y_loc = (player.location_x + 123467.1611767) / 462.962962963;
-
-            drawDot(x_loc, y_loc, player);
-          });
-        });
-      }, 1000);
-
-      function drawDot(x_loc, y_loc, player) {
-        // 将座标转换为 OpenSeadragon 的画布座标
-        const imageSize = viewer.source.dimensions;
-        const viewportX = ((x_loc + 1000) / 2000) * imageSize.x;
-        const viewportY = ((1000 - y_loc) / 2000) * imageSize.y;
-
-        // 创建一个圆形 overlay
-
-        // console.log(viewer);
-
-        const dot = viewer.addOverlay(
-          {
-            px: viewportX,
-            py: viewportY,
-            className: "test-overlay " + player.userId,
-          }
-          // false,
-          // "test-overlay"
-        );
-
-        // 设置 overlay 的样式
-
-        // 返回 overlay 实例,以便于之后的移除
-
-        $(`.${player.userId}`).append(`<div class="player-label">
-            <span>Lv.${player.level}</span> <span>${
-          player.name
-        }</span> <span>(${x_loc?.toFixed(1)},${y_loc?.toFixed(1)})</span>
-          </div>`);
-      }
-
-      const query = new URL(window.location).searchParams.toString();
-
-      function fetchPlayers() {
-        return fetch(`http://127.0.0.1:3333/players?${query}`)
-          .then((res) => res.json())
-          .then((data) => {
-            return data.players;
-          });
-      }
-
-      fetchInfo().then((info) => {
-        $(".servername").text(`${info.servername}`);
-
-        console.log(info);
-      });
-
-      function fetchInfo() {
-        return fetch(`http://127.0.0.1:3333/info?${query}`)
-          .then((res) => res.json())
-          .then((data) => {
-            return data;
-          });
-      }
-    </script>
+    <script src="./index.js"></script>
   </body>
 </html>
