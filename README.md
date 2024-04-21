@@ -6,7 +6,13 @@ Online map for the Palworld Dedicated Server, which displays players' locations,
 
 ### How to use
 
-#### Run server
+#### Online version
+
+https://palserver-online-map.onrender.com/
+
+(Notice: You can't use online version if your servers are running through vpn or you're trying to access servers through 127.0.0.1)
+
+#### Run locally 
 
 ```bash
 npm i
