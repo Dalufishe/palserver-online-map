@@ -8,7 +8,7 @@ setInterval(() => {
       drawDot(x_loc, y_loc, player);
     });
   });
-}, 1000);
+}, 3000);
 
 fetchInfo().then((info) => {
   $(".textHelper").text(`${info.servername || "Connect to server"}`);
