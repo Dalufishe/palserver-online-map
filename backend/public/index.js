@@ -48,7 +48,15 @@ function drawDot(x_loc, y_loc, player) {
 function fetchPlayers() {
   const query = new URL(window.location).searchParams.toString();
 
-  return fetch(`http://127.0.0.1:3333/players?${query}`)
+  const ip = window.localStorage.getItem("ip");
+  const port = window.localStorage.getItem("port");
+  const password = window.localStorage.getItem("password");
+
+  return fetch(
+    `http://127.0.0.1:3333/players?${
+      query || `ip=${ip}&port=${port}&password=${password}`
+    }`
+  )
     .then((res) => res.json())
     .then((data) => {
       return data.players;
@@ -58,9 +66,29 @@ function fetchPlayers() {
 function fetchInfo() {
   const query = new URL(window.location).searchParams.toString();
 
-  return fetch(`http://127.0.0.1:3333/info?${query}`)
+  const ip = window.localStorage.getItem("ip");
+  const port = window.localStorage.getItem("port");
+  const password = window.localStorage.getItem("password");
+
+  return fetch(
+    `http://127.0.0.1:3333/info?${
+      query || `ip=${ip}&port=${port}&password=${password}`
+    }`
+  )
     .then((res) => res.json())
     .then((data) => {
       return data;
     });
 }
+
+$(() => {
+  $(".connect-to-server-btn").click(() => {
+    let ip = prompt("Enter your IP Adress");
+    let port = prompt("Enter your REST API Port");
+    let password = prompt("Enter your Admin Password");
+
+    window.localStorage.setItem("ip", ip);
+    window.localStorage.setItem("port", port);
+    window.localStorage.setItem("password", password);
+  });
+});
