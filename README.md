@@ -34,5 +34,6 @@ node server.js
 
 ### Special Thanks
 
-- Ideas - https://github.com/BloodDragon2580
-- Inspire - https://github.com/DecioLuvier/SphereZones
+- Inspire
+  - https://github.com/BloodDragon2580
+  - https://github.com/DecioLuvier/SphereZones
