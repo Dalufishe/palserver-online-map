@@ -37,3 +37,4 @@ node server.js
 - Inspire
   - https://github.com/BloodDragon2580
   - https://github.com/DecioLuvier/SphereZones
+  - https://github.com/fa0311/palworld-map
