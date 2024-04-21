@@ -83,7 +83,7 @@ function fetchInfo() {
 
 $(() => {
   $(".connect-to-server-btn").click(() => {
-    let ip = prompt("Enter your IP Adress");
+    let ip = prompt("Enter your IP Address");
     let port = prompt("Enter your REST API Port");
     let password = prompt("Enter your Admin Password");
 
